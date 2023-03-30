@@ -16,17 +16,39 @@ import {
 } from "@mui/joy";
 import Wrapper from "../components/wrapper";
 import { Controller, useForm, Form } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { useNavigate } from "react-router-dom";
-
-const CreateStudent = () => {
+const EditStudent = () => {
   const navigate = useNavigate();
+  const [student, setStudent] = useState(null);
+  const { id } = useParams();
+
+  const getStudent = async () => {
+    const response = await axios.get(`/api/v1/students/${id}`);
+    const res = response.data.data;
+    setStudent(res);
+  };
+
+  // useEffect(() => {
+
+  // }, [])
+
+  useEffect(() => {
+    if (student) {
+      reset(student);
+    }
+    getStudent();
+  }, [student]);
+
+  console.log(student);
   const {
     control,
     setError,
+    reset,
     formState: { errors },
   } = useForm({
-    defaultValues: {
+    defaultValues: student || {
       firstName: "",
       lastName: "",
       country: "",
@@ -36,21 +58,20 @@ const CreateStudent = () => {
       gender: "",
     },
   });
-  // console.log(errors);
   return (
     <>
       <Wrapper>
         <Card>
-        <CardOverflow sx={{ py: 2 }} variant="solid">
-          <Typography level="h5" sx={{ color: '#fff', fontWeight: 700 }}>
-            Edit Student
-          </Typography>
-        </CardOverflow>
+          <CardOverflow sx={{ py: 2 }} variant="solid">
+            <Typography level="h5" sx={{ color: "#fff", fontWeight: 700 }}>
+              Edit Student
+            </Typography>
+          </CardOverflow>
           <CardContent>
             <Form
               control={control}
-              method="post"
-              action={`${axios.defaults.baseURL}/api/v1/students`}
+              method="put"
+              action={`${axios.defaults.baseURL}/api/v1/students/${id}`}
               onSuccess={() => navigate("/students", { replace: true })}
               onError={async ({ response }) => {
                 const res = await response.json();
@@ -66,16 +87,16 @@ const CreateStudent = () => {
                     name="firstName"
                     control={control}
                     render={({ field }) => (
-                      <FormControl color={errors.firstName && 'danger'}>
+                      <FormControl color={errors.firstName && "danger"}>
                         <FormLabel>First Name</FormLabel>
                         <Input
                           {...field}
                           placeholder="Enter your first name....."
                           size="lg"
                         />
-                         <FormHelperText>
-                        {errors.firstName?.message}
-                      </FormHelperText>
+                        <FormHelperText>
+                          {errors.firstName?.message}
+                        </FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -85,16 +106,16 @@ const CreateStudent = () => {
                     name="lastName"
                     control={control}
                     render={({ field }) => (
-                      <FormControl color={errors.lastName && 'danger'}>
+                      <FormControl color={errors.lastName && "danger"}>
                         <FormLabel>Last Name</FormLabel>
                         <Input
                           {...field}
                           placeholder="Enter your last name....."
                           size="lg"
                         />
-                       <FormHelperText>
-                        {errors.lastName?.message}
-                      </FormHelperText>
+                        <FormHelperText>
+                          {errors.lastName?.message}
+                        </FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -104,16 +125,14 @@ const CreateStudent = () => {
                     name="state"
                     control={control}
                     render={({ field }) => (
-                      <FormControl color={errors.state && 'danger'}>
+                      <FormControl color={errors.state && "danger"}>
                         <FormLabel>State </FormLabel>
                         <Input
                           {...field}
                           placeholder="Enter your state....."
                           size="lg"
                         />
-                         <FormHelperText>
-                        {errors.state?.message}
-                      </FormHelperText>
+                        <FormHelperText>{errors.state?.message}</FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -123,16 +142,14 @@ const CreateStudent = () => {
                     name="city"
                     control={control}
                     render={({ field }) => (
-                      <FormControl color={errors.city && 'danger'}>
+                      <FormControl color={errors.city && "danger"}>
                         <FormLabel>City </FormLabel>
                         <Input
                           {...field}
                           placeholder="Enter your City ....."
                           size="lg"
                         />
-                         <FormHelperText>
-                        {errors.city?.message}
-                      </FormHelperText>
+                        <FormHelperText>{errors.city?.message}</FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -142,7 +159,7 @@ const CreateStudent = () => {
                     name="country"
                     control={control}
                     render={({ field }) => (
-                      <FormControl color={errors.country && 'danger'}>
+                      <FormControl color={errors.country && "danger"}>
                         <FormLabel>Country</FormLabel>
                         <Input
                           {...field}
@@ -150,8 +167,8 @@ const CreateStudent = () => {
                           size="lg"
                         />
                         <FormHelperText>
-                        {errors.country?.message}
-                      </FormHelperText>
+                          {errors.country?.message}
+                        </FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -161,16 +178,16 @@ const CreateStudent = () => {
                     name="pincode"
                     control={control}
                     render={({ field }) => (
-                      <FormControl color={errors.pincode && 'danger'}>
+                      <FormControl color={errors.pincode && "danger"}>
                         <FormLabel>Postal No</FormLabel>
                         <Input
                           {...field}
                           placeholder="Enter Poostal....."
                           size="lg"
                         />
-                         <FormHelperText>
-                        {errors.pincode?.message}
-                      </FormHelperText>
+                        <FormHelperText>
+                          {errors.pincode?.message}
+                        </FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -188,7 +205,9 @@ const CreateStudent = () => {
                           <Radio value="male" label="Male" />
                           <Radio value="other" label="Other" />
                         </RadioGroup>
-                        <FormHelperText>{errors.gender?.message}</FormHelperText>
+                        <FormHelperText>
+                          {errors.gender?.message}
+                        </FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -197,7 +216,7 @@ const CreateStudent = () => {
 
               <Stack direction="row" spacing={2} sx={{ pt: 2 }}>
                 <Button type="submit" size="lg">
-                  Update 
+                  Update
                 </Button>
                 <Button
                   onClick={() => navigate(-1)}
@@ -216,4 +235,4 @@ const CreateStudent = () => {
   );
 };
 
-export default CreateStudent;
+export default EditStudent;

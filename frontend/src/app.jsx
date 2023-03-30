@@ -23,6 +23,7 @@ export function App() {
             <Route exact path="/students" element={<Students />} />
             <Route exact path="/create-student" element={<CreateStudent />} />
             <Route exact path="/edit-student/:id" element={<EditStudent />} />
+            
           </Routes>
         </BrowserRouter>
         </CssBaseline>
