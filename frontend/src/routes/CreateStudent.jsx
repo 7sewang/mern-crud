@@ -21,7 +21,11 @@ import { useNavigate } from "react-router-dom";
 
 const CreateStudent = () => {
   const navigate = useNavigate();
-  const { control } = useForm({
+  const {
+    control,
+    setError,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -32,39 +36,41 @@ const CreateStudent = () => {
       gender: "",
     },
   });
+  // console.log(errors);
   return (
     <>
       <Wrapper>
         <Card>
           <CardContent>
-            
-          <Form
-            control={control}
-            method="post"
-            action={`${axios.defaults.baseURL}/api/v1/students`}
-            // onSuccess={() => navigate('/students', { replace: true })}
-            // onError={async ({ response }) => {
-            //   const res = await response.json();
-            //   res.errors.forEach((e) => {
-            //     setError(e.name, { type: e.type, message: e.message });
-            //   });
-            // }}
-          >
-
+            <Form
+              control={control}
+              method="post"
+              action={`${axios.defaults.baseURL}/api/v1/students`}
+              onSuccess={() => navigate("/students", { replace: true })}
+              onError={async ({ response }) => {
+                const res = await response.json();
+                // console.log(res);
+                res.errors.forEach((e) => {
+                  setError(e.name, { type: e.type, message: e.message });
+                });
+              }}
+            >
               <Grid spacing={3} container>
                 <Grid sxm={6} lg={3} item>
                   <Controller
                     name="firstName"
                     control={control}
                     render={({ field }) => (
-                      <FormControl>
+                      <FormControl color={errors.firstName && 'danger'}>
                         <FormLabel>First Name</FormLabel>
                         <Input
                           {...field}
                           placeholder="Enter your first name....."
                           size="lg"
                         />
-                        {/* <FormHelperText>This field is required</FormHelperText> */}
+                         <FormHelperText>
+                        {errors.firstName?.message}
+                      </FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -74,14 +80,16 @@ const CreateStudent = () => {
                     name="lastName"
                     control={control}
                     render={({ field }) => (
-                      <FormControl>
+                      <FormControl color={errors.lastName && 'danger'}>
                         <FormLabel>Last Name</FormLabel>
                         <Input
                           {...field}
                           placeholder="Enter your last name....."
                           size="lg"
                         />
-                        {/* <FormHelperText>This field is required</FormHelperText> */}
+                       <FormHelperText>
+                        {errors.lastName?.message}
+                      </FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -91,14 +99,16 @@ const CreateStudent = () => {
                     name="state"
                     control={control}
                     render={({ field }) => (
-                      <FormControl>
+                      <FormControl color={errors.state && 'danger'}>
                         <FormLabel>State </FormLabel>
                         <Input
                           {...field}
                           placeholder="Enter your state....."
                           size="lg"
                         />
-                        {/* <FormHelperText>This field is required</FormHelperText> */}
+                         <FormHelperText>
+                        {errors.state?.message}
+                      </FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -108,14 +118,16 @@ const CreateStudent = () => {
                     name="city"
                     control={control}
                     render={({ field }) => (
-                      <FormControl>
+                      <FormControl color={errors.city && 'danger'}>
                         <FormLabel>City </FormLabel>
                         <Input
                           {...field}
                           placeholder="Enter your City ....."
                           size="lg"
                         />
-                        {/* <FormHelperText>This field is required</FormHelperText> */}
+                         <FormHelperText>
+                        {errors.city?.message}
+                      </FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -125,14 +137,16 @@ const CreateStudent = () => {
                     name="country"
                     control={control}
                     render={({ field }) => (
-                      <FormControl>
+                      <FormControl color={errors.country && 'danger'}>
                         <FormLabel>Country</FormLabel>
                         <Input
                           {...field}
                           placeholder="Enter your country....."
                           size="lg"
                         />
-                        {/* <FormHelperText>This field is required</FormHelperText> */}
+                        <FormHelperText>
+                        {errors.country?.message}
+                      </FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -142,14 +156,16 @@ const CreateStudent = () => {
                     name="pincode"
                     control={control}
                     render={({ field }) => (
-                      <FormControl>
-                        <FormLabel>Pincode</FormLabel>
+                      <FormControl color={errors.pincode && 'danger'}>
+                        <FormLabel>Postal No</FormLabel>
                         <Input
                           {...field}
-                          placeholder="Enter Pincode....."
+                          placeholder="Enter Poostal....."
                           size="lg"
                         />
-                        {/* <FormHelperText>This field is required</FormHelperText> */}
+                         <FormHelperText>
+                        {errors.pincode?.message}
+                      </FormHelperText>
                       </FormControl>
                     )}
                   />
@@ -167,7 +183,7 @@ const CreateStudent = () => {
                           <Radio value="male" label="Male" />
                           <Radio value="other" label="Other" />
                         </RadioGroup>
-                        {/* <FormHelperText>{errors.gender?.message}</FormHelperText> */}
+                        <FormHelperText>{errors.gender?.message}</FormHelperText>
                       </FormControl>
                     )}
                   />
