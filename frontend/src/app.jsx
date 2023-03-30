@@ -9,6 +9,8 @@ import "./app.css";
 import Home from "./routes/Home";
 import Students from "./routes/Students";
 import CreateStudent from "./routes/CreateStudent";
+import EditStudent from "./routes/EditStudent";
+
 
 export function App() {
   return (
@@ -20,6 +22,7 @@ export function App() {
             <Route exact path="/" element={<Home />} />
             <Route exact path="/students" element={<Students />} />
             <Route exact path="/create-student" element={<CreateStudent />} />
+            <Route exact path="/edit-student/:id" element={<EditStudent />} />
           </Routes>
         </BrowserRouter>
         </CssBaseline>

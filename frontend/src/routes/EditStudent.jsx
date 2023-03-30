@@ -43,7 +43,7 @@ const CreateStudent = () => {
         <Card>
         <CardOverflow sx={{ py: 2 }} variant="solid">
           <Typography level="h5" sx={{ color: '#fff', fontWeight: 700 }}>
-           Add Student
+            Edit Student
           </Typography>
         </CardOverflow>
           <CardContent>
@@ -197,7 +197,7 @@ const CreateStudent = () => {
 
               <Stack direction="row" spacing={2} sx={{ pt: 2 }}>
                 <Button type="submit" size="lg">
-                  Create
+                  Update 
                 </Button>
                 <Button
                   onClick={() => navigate(-1)}

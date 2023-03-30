@@ -10,6 +10,7 @@ import {
   IconButton,
   Box,
 } from "@mui/joy";
+import { Link } from "react-router-dom";
 
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
@@ -38,7 +39,7 @@ const StudenCard = ({ student }) => {
                 </Typography>
               </div>
               <Stack direction="row" spacing={1}>
-                <IconButton>
+                <IconButton  component={Link} to={`/edit-student/${student._id}`}>
                   <EditTwoToneIcon color="success"/>
                 </IconButton>
 
